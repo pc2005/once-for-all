@@ -25,6 +25,7 @@ def accuracy(output, target, topk=(1,)):
     batch_size = target.size(0)
 
     _, pred = output.topk(maxk, 1, True, True)
+    # _, pred = torch.topk(output, maxk)
     pred = pred.t()
     correct = pred.eq(target.view(1, -1).expand_as(pred))
 

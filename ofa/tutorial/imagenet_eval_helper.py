@@ -95,11 +95,18 @@ def validate(net, path, image_size, data_loader, batch_size=100, device='cuda:0'
                 images, labels = images.to(device), labels.to(device)
                 # compute output
                 output = net(images)
-                loss = criterion(output, labels)
+
+                # # ? pc: handle abnormal labels
+                # labels = labels-1
+                # labels[labels<0]=0
+                # print('-'*20)
+                # print('MIN: %d | MAX: %d'%(min(labels), max(labels)))
+                # loss = criterion(output, labels)
+
                 # measure accuracy and record loss
                 acc1, acc5 = accuracy(output, labels, topk=(1, 5))
 
-                losses.update(loss.item(), images.size(0))
+                # losses.update(loss.item(), images.size(0))
                 top1.update(acc1[0].item(), images.size(0))
                 top5.update(acc5[0].item(), images.size(0))
                 t.set_postfix({
@@ -128,6 +135,7 @@ def evaluate_ofa_specialized(path, data_loader, batch_size=100, device='cuda:0')
             platform_name = platform_name.lower()
             if platform_name in valid_platform_name:
                 return platform_name
+            
             print("Platform name is invalid! Please select in ('pixel1', 'pixel2', 'note10', 'note8', 's7edge', 'lg-g8', '1080ti', 'v100', 'tx2', 'cpu', 'flops')!\n")
     
     def select_netid(platform_name):
