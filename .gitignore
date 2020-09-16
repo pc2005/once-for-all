@@ -113,3 +113,9 @@ venv.bak/
 *.xml
 *.iml
 /bash/distributed_imagenet.sh
+
+
+imagenet_1k/**
+*.config
+*.lock
+init
